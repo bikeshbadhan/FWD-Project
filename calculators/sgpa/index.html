@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SGPA Calculator</title>
+  <link rel="stylesheet" href="Stylesheets/style.css" />
+  <link rel="icon" type="image/svg+xml" href="/Assets/Favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Assets/favicon.png">
+</head>
+<body>
+  <img src="/Assets/Projects.svg" alt="BIKESH Projects Logo" class="logo-centered" />
+
+  <div class="container">
+    <h2>SGPA Calculator</h2>
+
+    <div id="guided-mode">
+      <label for="branch">Branch:</label>
+      <select id="branch">
+        <option value="CSE">CSE</option>
+        <!-- Add other branches if needed -->
+      </select>
+
+      <label for="semester">Semester:</label>
+      <select id="semester">
+        <option value="Sem1">Semester 1</option>
+        <option value="Sem2">Semester 2</option>
+        <option value="Sem3">Semester 3</option>
+      </select>
+
+      <button onclick="loadSubjects()">Load Subjects</button>
+    </div>
+
+    <div id="subject-entry" class="hidden">
+      <h2>Enter Grades</h2>
+      <form id="grade-form"></form>
+      <button onclick="calculateSGPA()">Calculate SGPA</button>
+    </div>
+
+    <div id="result" class="hidden">
+      <h2>Result</h2>
+      <p id="sgpa-display"></p>
+    </div>
+  </div>
+
+  <script src="/Scripts/main.js"></script>
+</body>
+</html>
