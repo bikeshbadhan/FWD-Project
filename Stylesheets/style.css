@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'NewFont';
+  src: url('NewGDSLight.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NewFont';
+  src: url('NewGDS.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  font-family: 'NewFont', sans-serif;
+  font-weight: 400; /* regular */
+  background: linear-gradient(to right, #ece9e6, #ffffff);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Make content stack vertically */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #333;
+  text-align: center;
+}
+
+.logo-centered {
+  width: 200px;
+  height: auto;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.container {
+  max-width: 800px;
+  width: 90%;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+    font-weight: 700; /* bold */
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  font-size: 16px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1c5980;
+}
+
+select,
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+label {
+  font-weight: 600;
+}
+
+.hidden {
+  display: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#result p {
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
+  color: #27ae60;
+  margin-top: 20px;
+}
