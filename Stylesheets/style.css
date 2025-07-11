@@ -1,13 +1,13 @@
 @font-face {
   font-family: 'NewFont';
-  src: url('NewGDSLight.woff2') format('woff2');
+  src: url('/Fonts/NewGDSLight.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'NewFont';
-  src: url('NewGDS.woff2') format('woff2');
+  src: url('/Fonts/NewGDS.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }
