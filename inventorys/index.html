@@ -1,0 +1,103 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSync Solutions - Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-blue-900 text-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
+        <div class="text-2xl font-bold">StockSync Solutions</div>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><a href="dashboard.html" class="hover:text-blue-200">Dashboard</a></li>
+                <li><a href="inventory.html" class="hover:text-blue-200">Inventory</a></li>
+                <li><a href="add-item.html" class="hover:text-blue-200">Add Item</a></li>
+                <li><a href="reports.html" class="hover:text-blue-200">Reports</a></li>
+                <li><a href="login.html" class="hover:text-blue-200">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="max-w-7xl mx-auto p-4">
+        <section class="mb-6">
+            <h1 class="text-3xl font-semibold text-center mb-6">Inventory List</h1>
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-lg shadow-md">
+                    <thead>
+                        <tr class="bg-blue-700 text-white">
+                            <th class="p-3 text-left">Item Name</th>
+                            <th class="p-3 text-left">Quantity</th>
+                            <th class="p-3 text-left">Price</th>
+                            <th class="p-3 text-left">Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-3">Widget A</td>
+                            <td class="p-3">50</td>
+                            <td class="p-3">$10.00</td>
+                            <td class="p-3">Jul 10, 2025</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3">Gadget B</td>
+                            <td class="p-3">30</td>
+                            <td class="p-3">$15.00</td>
+                            <td class="p-3">Jul 11, 2025</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3">Tool C</td>
+                            <td class="p-3">20</td>
+                            <td class="p-3">$20.00</td>
+                            <td class="p-3">Jul 12, 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-blue-900 text-white text-center p-4 mt-6">
+        <p>© 2025 StockSync Solutions. All rights reserved.</p>
+    </footer>
+</body>
+</html>

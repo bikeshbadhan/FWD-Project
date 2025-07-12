@@ -1,0 +1,165 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT @ IKGPTU - Microsoft</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/press-start-2p');
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Press Start 2P', cursive;
+            background: #ffffff;
+            color: #1e90ff;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        header {
+            background: #87ceeb;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 2px dashed #1e90ff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            text-shadow: 1px 1px 0 #ffffff;
+        }
+        nav {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav a {
+            color: #1e90ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            text-shadow: 1px 1px 0 #ffffff;
+        }
+        nav a:hover {
+            color: #4682b4;
+        }
+        main {
+            padding: 30px 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        main h2 {
+            font-size: 1.5em;
+            color: #4682b4;
+            text-shadow: 1px 1px 0 #ffffff;
+            margin-bottom: 20px;
+        }
+        main p {
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(135, 206, 235, 0.2);
+            border: 1px solid #1e90ff;
+            border-radius: 5px;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        footer {
+            background: #87ceeb;
+            padding: 10px 0;
+            text-align: center;
+            border-top: 2px dashed #1e90ff;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            width: 100%;
+        }
+        footer p {
+            font-size: 0.7em;
+            margin: 2px 0;
+            color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Summer Institution Training @ IKGPTU</h1>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="web-design.html">Web Design</a>
+        <a href="programming.html">Programming</a>
+    </nav>
+    <main>
+        <h2>Elevate with Microsoft Mastery <span class="blink">_</span></h2>
+        <p>The Microsoft module of SIT at IKGPTU is a required course for all students, focusing on mastering the latest Office suite. Develop proficiency in Word, Excel, and PowerPoint to excel in academic projects and future careers.</p>
+        <div class="section">
+            <h2>Course Content</h2>
+            <p>Learn advanced Word document management, Excel data analysis with pivot tables, and PowerPoint presentation design. Explore integration with Microsoft Teams and cloud solutions via OneDrive, essential for collaborative work.</p>
+        </div>
+        <div class="section">
+            <h2>Hands-On Learning</h2>
+            <ul>
+                <li>Build a professional report in Word</li>
+                <li>Analyze datasets with Excel macros</li>
+                <li>Create dynamic presentations in PowerPoint</li>
+                <li>Manage team tasks using Microsoft 365</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h2>Certification and Guidance</h2>
+            <p>Earn a Microsoft Office Specialist (MOS) certification upon completion. Benefit from IKGPTU’s support system, including live workshops, online resources, and one-on-one mentoring sessions.</p>
+        </div>
+    </main>
+    <footer>
+        <p>Last updated: Saturday, July 12, 2025, 04:52 PM IST</p>
+        <p>Powered by Bikesh</p>
+    </footer>
+</body>
+</html>
